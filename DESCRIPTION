@@ -1,0 +1,12 @@
+Package: gbrowsr
+Maintainer: Jeffrey Bhasin <jeffb@case.edu>
+Author: Jeffrey Bhasin <jeffb@case.edu>
+Version: 0.1
+License: GPL-3
+Title: gbrowsr: Download, Manage, and Parse UCSC Genome Browser Tables
+Description: Provides a uniform interface to maintain a local mirror of UCSC tables and parse their contents into GenomicRanges objects for annotation and feature analysis.
+Suggests:
+    testthat,
+    roxygen2
+Collate:
+    'gbrowsr-package.r'
