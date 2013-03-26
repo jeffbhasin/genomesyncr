@@ -3,14 +3,18 @@ Maintainer: Jeffrey Bhasin <jeffb@case.edu>
 Author: Jeffrey Bhasin <jeffb@case.edu>
 Version: 0.1
 License: GPL-3
-Title: genomesyncr: Download, Synchronize, and Parse UCSC Genome Browser Tables from R
-Description: Provides an interface to maintain a local mirror of any UCSC annotation tables and FASTA sequences and parse their contents into GenomicRanges objects for annotation and feature analysis.
+Title: genomesyncr: Download, Synchronize, and Parse UCSC Genome Browser Tables
+    from R
+Description: Provides an interface to maintain a local mirror of any UCSC
+    annotation tables and FASTA sequences and parse their contents into
+    GenomicRanges objects for annotation and feature analysis.
 Depends:
-	GenomicRanges,
-	Biostrings,
-	stringr
+    GenomicRanges,
+    Biostrings,
+    stringr
 Suggests:
     testthat,
     roxygen2
 Collate:
     'genomesyncr-package.r'
+    'ucsc.R'

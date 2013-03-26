@@ -6,6 +6,8 @@
 * Keep UCSC's folder structure: A partial local mirror of the tables you need
 * Provide some faculty for parsing the tables based on their schemas and creating GenomicRanges objects from them
 * Provide some common joins on KnownGene to add gene symbol, cytoBand, etc (may be duplicating GenomicFeatures)
+* Add functions to give common queries based on a gene name (list of exons, list of introns, list of repeats, etc)
+* Add functions to give common annotation for a list of any genomic ranges (3' UTR overlap, names of overlapping genes, names of upstream genes, names of downstream genes, etc)
 
 ## Usage
 In development.

@@ -1,0 +1,3 @@
+import(Biostrings)
+import(GenomicRanges)
+import(stringr)

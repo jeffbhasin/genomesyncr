@@ -19,6 +19,7 @@ url.default <- "rsync://hgdownload.cse.ucsc.edu/goldenPath/"
 
 # -----------------------------------------------------------------------------
 #' Sync whole genome FASTA from UCSC's server
+#'
 #' This function will create the necessary directory tree under \code{local}, download, and extract the whole genome FASTA for the genome given as \code{genome}. If the FASTA archive already exists, the function will only re-download and re-extract if the modified dates are different between the local and remote copies.
 #' @param genome The UCSC string specific to the genome to be downloaded (e.g. "hg19", "hg19", "mm10", etc)
 #' @param local The root of a local directory where all files downloaded from UCSC are stored
@@ -81,7 +82,8 @@ syncFasta <- function(genome="",local, url=url.default)
 
 # -----------------------------------------------------------------------------
 #' Load downloaded whole genome FASTA into a GenomicRanges object
-#' After downloading the FASTA for a genome using \link{\code{syncFasta}}, this function loads all chromosomes into a \code{DNAStringSet} object.
+#'
+#' After downloading the FASTA for a genome using \code{\link{syncFasta}}, this function loads all chromosomes into a \code{DNAStringSet} object.
 #' @param genome The UCSC string specific to the genome to be downloaded (e.g. "hg19", "hg19", "mm10", etc)
 #' @param local The root of a local directory where all files downloaded from UCSC are stored
 #' @return A \code{DNAStringSet} object with one sequence per chromosome in UCSC's FASTA release for the given genome.
@@ -89,7 +91,7 @@ loadGenome <- function(genome, local)
 {
 	local.dir <- paste(local, genome, "/bigZips/chromFa", sep="")
 
-	local.fasta <- list.files(local.dir,full.name=TRUE)
+	local.fasta <- list.files(local.dir,full.names=TRUE)
 
 	readDNAStringSet(local.fasta, format="fasta")
 }
@@ -98,7 +100,8 @@ loadGenome <- function(genome, local)
 
 # -----------------------------------------------------------------------------
 #' Load downloaded chromosome into a GenomicRanges object
-#' After downloading the FASTA for a genome using \link{\code{syncFasta}}, this function loads a given chromosome only into a \code{DNAStringSet} object.
+#'
+#' After downloading the FASTA for a genome using \code{\link{syncFasta}}, this function loads a given chromosome only into a \code{DNAStringSet} object.
 #' @param genome The UCSC string specific to the genome to be downloaded (e.g. "hg19", "hg19", "mm10", etc)
 #' @param chr The string specific to the chromosome to load (e.g. "chr1", "chr22", "chr_M", "chr1_random", etc)
 #' @param local The root of a local directory where all files downloaded from UCSC are stored
@@ -118,6 +121,7 @@ loadChr <- function(genome, chr, local)
 
 # -----------------------------------------------------------------------------
 #' Sync whole genome annotation tables from UCSC's server
+#'
 #' This function will create the necessary directory tree under \code{local}, download, and extract the text file data and schema for given table from the given genome. If the data already exists, the function will only re-download and re-extract if the modified dates are different between the local and remote copies.
 #' @param genome The UCSC string specific to the genome to be downloaded (e.g. "hg19", "hg19", "mm10", etc)
 #' @param table The UCSC string specific for the table to sync (e.g. "knownGene", "kgXref", etc)
@@ -180,7 +184,8 @@ syncTable <- function(genome,table,local,url=url.default)
 
 # -----------------------------------------------------------------------------
 #' Load downloaded annotation table into a data.frame object
-#' After downloading the table for a genome using \link{\code{syncTable}}, this function loads all data into a data.frame object. The headers for the table are extracted from the accompanying SQL schema file.
+#'
+#' After downloading the table for a genome using \code{\link{syncTable}}, this function loads all data into a data.frame object. The headers for the table are extracted from the accompanying SQL schema file.
 #' @param genome The UCSC string specific to the genome to be downloaded (e.g. "hg19", "hg19", "mm10", etc)
 #' @param table The UCSC string specific for the table to sync (e.g. "knownGene", "kgXref", etc)
 #' @param local The root of a local directory where all files downloaded from UCSC are stored
