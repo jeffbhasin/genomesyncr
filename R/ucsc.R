@@ -25,6 +25,7 @@ url.default <- "rsync://hgdownload.cse.ucsc.edu/goldenPath/"
 #' @param local The root of a local directory where all files downloaded from UCSC are stored
 #' @param url The root of the remote rsync URL to download UCSC data from (set by default to \code{rsync://hgdownload.cse.ucsc.edu/goldenPath/})
 #' @return Prints status of the sync to the screen. No output object.
+#' @export
 syncFasta <- function(genome="",local, url=url.default)
 {
 	# Only works for genomes with "chromFa.tar.gz" files available
@@ -87,6 +88,7 @@ syncFasta <- function(genome="",local, url=url.default)
 #' @param genome The UCSC string specific to the genome to be downloaded (e.g. "hg19", "hg19", "mm10", etc)
 #' @param local The root of a local directory where all files downloaded from UCSC are stored
 #' @return A \code{DNAStringSet} object with one sequence per chromosome in UCSC's FASTA release for the given genome.
+#' @export
 loadGenome <- function(genome, local)
 {
 	local.dir <- paste(local, genome, "/bigZips/chromFa", sep="")
@@ -106,6 +108,7 @@ loadGenome <- function(genome, local)
 #' @param chr The string specific to the chromosome to load (e.g. "chr1", "chr22", "chr_M", "chr1_random", etc)
 #' @param local The root of a local directory where all files downloaded from UCSC are stored
 #' @return A \code{DNAStringSet} object with one sequence for the chromosome from UCSC's FASTA release for the given genome.
+#' @export
 loadChr <- function(genome, chr, local)
 {
 	local.fasta <- paste(local, genome, "/bigZips/chromFa/", chr, ".fa",sep="")
@@ -128,6 +131,7 @@ loadChr <- function(genome, chr, local)
 #' @param local The root of a local directory where all files downloaded from UCSC are stored
 #' @param url The root of the remote rsync URL to download UCSC data from (set by default to \code{rsync://hgdownload.cse.ucsc.edu/goldenPath/})
 #' @return Prints status of the sync to the screen. No output object.
+#' @export
 syncTable <- function(genome,table,local,url=url.default)
 {
 	# Full url to rsync from - the data flatfile and the SQL schema header
@@ -190,6 +194,7 @@ syncTable <- function(genome,table,local,url=url.default)
 #' @param table The UCSC string specific for the table to sync (e.g. "knownGene", "kgXref", etc)
 #' @param local The root of a local directory where all files downloaded from UCSC are stored
 #' @return A data.frame object with UCSC's column headers for the specified table.
+#' @export
 loadTable <- function(genome, table, local)
 {
 	local.file.txt.un <- paste(local, genome, "/database/", table, ".txt", sep="")
