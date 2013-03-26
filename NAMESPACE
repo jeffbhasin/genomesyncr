@@ -1,3 +1,8 @@
+export(loadChr)
+export(loadGenome)
+export(loadTable)
+export(syncFasta)
+export(syncTable)
 import(Biostrings)
 import(GenomicRanges)
 import(stringr)
