@@ -167,7 +167,7 @@ syncTable <- function(genome,table,local,url=url.default)
 
 	# Recheck file mod time
 	file.mtime2.sql <- file.info(local.file.sql)$mtime
-
+	return <- ""
 	if( ((file.mtime1.txt != file.mtime2.txt) | (is.na(file.mtime1.txt))) | ((file.mtime1.sql != file.mtime2.sql) | (is.na(file.mtime1.sql))) )
 	{
 		print(paste("New TXT.GZ (data) version downloaded: ", file.mtime1.txt, " -> ", file.mtime2.txt,sep=""))
@@ -177,12 +177,26 @@ syncTable <- function(genome,table,local,url=url.default)
 		local.file.txt.un <- paste(local, genome, "/database/", table, ".txt", sep="")
 		print(paste("Extracting new TXT file to ", local.file.txt.un, sep=""))
 		system(paste("gunzip -c ", local.file.txt, " > ", local.file.txt.un ,sep=""))
+
+		# Save an archive copy with a datestamp
+		file.mtime2.txt.plain <- str_replace_all(str_replace_all(file.mtime2.txt," ","-"),":","-")
+		file.mtime2.sql.plain <- str_replace_all(str_replace_all(file.mtime2.sql," ","-"),":","-")
+		file.arch.txt <- str_replace(local.file.txt.un,".txt","")
+		file.arch.sql <- str_replace(local.file.sql,".sql","")
+		file.arch.txt <- paste(file.arch.txt,file.mtime2.txt.plain,"txt",sep=".")
+		file.arch.sql <- paste(file.arch.sql,file.mtime2.sql.plain,"sql",sep=".")
+		print(paste("Archiving new TXT file to ", file.arch.txt, sep=""))
+		print(paste("Archiving new SQL file to ", file.arch.sql, sep=""))
+		file.copy(local.file.txt, file.arch.txt)
+		file.copy(local.file.sql, file.arch.sql)
+		return <- "updated"
 	} else
 	{
 		print(paste("TXT.GZ (data) version retained: ", file.mtime1.txt, " == ", file.mtime2.txt,sep=""))
 		print(paste("SQL (schema) version retained: ", file.mtime1.sql, " == ", file.mtime2.sql,sep=""))
+		return <- "retained"
 	}
-
+	return
 }
 # -----------------------------------------------------------------------------
 
