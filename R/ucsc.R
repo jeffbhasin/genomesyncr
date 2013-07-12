@@ -205,14 +205,18 @@ loadTable <- function(genome, table, local)
 	txt.nCols <- ncol(txt)
 
 	# Parse SQL schema to get the row names
-	sql <- readChar(local.file.sql, file.info(local.file.sql)$size)
+	# Parsing by the backticks worked, until I noticed some of the older tables didn't have them
+	# Now using a line by line reader
+	#sql <- readChar(local.file.sql, file.info(local.file.sql)$size)
 
 	# Want all strings encased in backquotes
-	ex <- unlist(str_extract_all(sql,"`.*?`"))
-	rp <- str_replace_all(ex,"`","")
+	#ex <- unlist(str_extract_all(sql,"`.*?`"))
+	#rp <- str_replace_all(ex,"`","")
 
 	# Assuming first 3 are the table name, then taking the rest equal to the number of columns
-	mycols <- rp[(1:txt.nCols)+3]
+	#mycols <- rp[(1:txt.nCols)+3]
+
+	mycols <- getHeadersFromSQL(local.file.sql)
 
 	# Set table with these row names
 	names(txt) <- mycols
@@ -220,5 +224,44 @@ loadTable <- function(genome, table, local)
 	txt
 }
 # -----------------------------------------------------------------------------
+
+# -----------------------------------------------------------------------------
+#' Extract column names from UCSC's SQL schema files
+#'
+#' Parse UCSC's SQL files to extract column headers for the data files.
+#' @param sql.file Path to the SQL file
+#' @return A vector of column names.
+getHeadersFromSQL <- function(sql.file)
+{
+	cols <- c()
+
+	con  <- file(sql.file, open = "r")
+
+	extract <- FALSE
+	while (length(oneLine <- readLines(con, n = 1, warn = FALSE)) > 0)
+	{
+		linevec <- unlist(str_split(oneLine," "))
+		#print(linevec)
+		if((extract==TRUE)&((linevec[3]=="KEY")|(linevec[3]=="PRIMARY")|(linevec[3]=="UNIQUE")))
+		{
+			extract <- FALSE
+		}
+		if(extract==TRUE)
+		{
+			#print(linevec[3])
+			colname <- linevec[3]
+			colname <- str_replace_all(linevec[3],"`","")
+			cols <- c(cols, colname)
+		}
+		if(linevec[1]=="CREATE")
+		{
+			extract <- TRUE
+		}
+	} 
+
+	close(con)
+}
+# -----------------------------------------------------------------------------
+
 
 # =============================================================================
